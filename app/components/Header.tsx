@@ -2,29 +2,28 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="w-full max-w-6xl px-6 py-8 md:py-12 flex flex-col lg:flex-row items-center justify-between gap-10">
-      {/* Left side: Title and Subtitle */}
-      <div className="flex flex-col items-center">
-        <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-300 to-gray-700 drop-shadow-lg select-none">
-          AHORCADO
+    <header className="w-full max-w-6xl px-6 py-8 flex flex-col items-center justify-center relative">
+      <div className="flex flex-col items-center relative z-10">
+        <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 via-cyan-500 to-blue-600 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] select-none">
+          CYBER
+          <span className="text-pink-500 bg-clip-text bg-gradient-to-b from-pink-400 to-purple-600 drop-shadow-[0_0_15px_rgba(236,72,153,0.8)]">GAMES</span>
         </h1>
-        <p className="mt-2 text-sm md:text-base font-medium tracking-wide text-blue-100/60 text-center w-full">
-          Desafía tu mente y salva al personaje.
+        <p className="mt-2 text-[10px] md:text-xs font-bold tracking-widest text-pink-400 text-center w-full uppercase drop-shadow-[0_0_5px_rgba(236,72,153,0.5)] max-w-lg leading-relaxed">
+          Demuestra tu habilidad con las palabras y evita que caiga la soga.
         </p>
       </div>
 
-      {/* Right side: Navigation */}
-      <nav className="flex items-center gap-6 px-8 py-4 rounded-full border border-gray-800/80 bg-zinc-950/80 shadow-lg">
-        <Link 
-          href="/" 
-          className="text-xs md:text-sm font-bold tracking-widest text-gray-400 transition-colors hover:text-white uppercase"
+      <nav className="mt-6 flex items-center gap-8 px-8 py-2 border-b-2 border-cyan-500/50 bg-black/40 shadow-[0_4px_20px_rgba(34,211,238,0.15)] backdrop-blur-sm">
+        <Link
+          href="/"
+          className="text-xs md:text-sm font-bold tracking-[0.2em] text-cyan-500 transition-all hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] uppercase"
         >
           INICIO
         </Link>
-        <div className="w-[1px] h-5 bg-gray-800"></div>
-        <Link 
-          href="/reglas" 
-          className="text-xs md:text-sm font-bold tracking-widest text-gray-400 transition-colors hover:text-white uppercase"
+        <div className="w-[2px] h-4 bg-pink-500/50 shadow-[0_0_5px_rgba(236,72,153,0.8)]"></div>
+        <Link
+          href="/REGLAS"
+          className="text-xs md:text-sm font-bold tracking-[0.2em] text-pink-500 transition-all hover:text-pink-300 hover:drop-shadow-[0_0_8px_rgba(236,72,153,0.8)] uppercase"
         >
           REGLAS
         </Link>

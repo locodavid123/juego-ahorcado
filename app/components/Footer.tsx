@@ -1,40 +1,17 @@
-import Link from "next/link";
-
 export default function Footer() {
   return (
-    <footer className="w-full mt-auto py-8 border-t border-zinc-800/60 bg-black/50 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        {/* Left side: Copyright */}
-        <p className="text-xs md:text-sm font-medium tracking-wide text-gray-500">
-          &copy; {new Date().getFullYear()} AHORCADO. Todos los derechos reservados.
-        </p>
-
-        {/* Right side: Links */}
-        <nav className="flex items-center gap-6">
-          <Link 
-            href="/acerca-de" 
-            className="text-xs font-bold tracking-widest text-gray-500 transition-colors hover:text-white uppercase"
-          >
-            Acerca de
-          </Link>
-          <div className="w-[1px] h-3 bg-gray-700"></div>
-          <Link 
-            href="/privacidad" 
-            className="text-xs font-bold tracking-widest text-gray-500 transition-colors hover:text-white uppercase"
-          >
-            Privacidad
-          </Link>
-          <div className="w-[1px] h-3 bg-gray-700"></div>
-          <a 
-            href="https://github.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-xs font-bold tracking-widest text-gray-500 transition-colors hover:text-white uppercase"
-          >
-            GitHub
-          </a>
-        </nav>
+    <footer className="w-full py-6 mt-auto border-t-2 border-pink-500/30 bg-[#0d0221]/90 backdrop-blur-md relative z-10 flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-cyan-400 font-mono tracking-widest text-xs uppercase">
+          SYSTEM_VER
+        </span>
+        <span className="text-pink-500 font-bold font-mono tracking-wider text-xs">
+          v1.9.84
+        </span>
       </div>
+      <p className="mt-2 text-[10px] text-cyan-800/80 uppercase tracking-[0.2em] font-mono text-center">
+        &copy; {new Date().getFullYear()} NÚCLEO CENTRAL DE DATOS. Todos los derechos reservados.
+      </p>
     </footer>
   );
 }
