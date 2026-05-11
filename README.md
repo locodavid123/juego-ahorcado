@@ -27,14 +27,19 @@ La aplicación está dividida en diferentes carpetas bajo el directorio `app/` p
 
 - **`app/lib/words.ts`**: Es nuestra conexión a la **base de datos PostgreSQL**. Ejecuta consultas SQL seguras para extraer una palabra aleatoria y su pista directamente desde el servidor.
 
-### 2. Páginas / Rutas (Pages)
+### 2. Rutas de API (Backend)
+- **`app/api/game/route.ts`**: Es el endpoint principal que conecta el frontend con la base de datos. Gestiona la extracción de palabras de manera dinámica, aplicando cabeceras estrictas (`Cache-Control: no-store`) para evadir la caché de Next.js y garantizar una palabra nueva en cada partida.
+
+### 3. Páginas / Rutas (Frontend)
 - **`app/page.tsx`**: Es el menú principal del sistema. Permite al usuario seleccionar el modo de red (Modo Solo, Crear Sala o Unirse a Sala).
 - **`app/local/page.tsx`**: Aquí se arma el rompecabezas uniendo la lógica (`useHangman`) con los componentes visuales para el modo de un jugador.
+- **`app/online/crear/page.tsx`**: Interfaz para generar una nueva sala cooperativa. Se comunica con el backend mediante peticiones `POST` para inicializar una sesión multijugador.
 - **`app/REGLAS/page.tsx`**: Es una página dedicada exclusivamente a mostrar las instrucciones del juego, con un diseño temático de *terminal de hacker*.
 
-### 3. Componentes Visuales (`app/components/`)
+### 4. Componentes Visuales (`app/components/`)
 Estos archivos solo se encargan de **"cómo se ve"** el juego. No procesan reglas, solo obedecen lo que `page.tsx` les manda:
 - **`Header.tsx` y `Footer.tsx`**: El encabezado con el gran logo de neón y la barra de navegación; y el pie de página con información del sistema.
+- **`Background.tsx`**: Componente reutilizable que dibuja la cuadrícula en 3D (estilo Outrun/Synthwave) que sirve de fondo para todas las vistas del juego.
 - **`WordDisplay.tsx`**: Recibe la palabra secreta y dibuja líneas (estilo neón). Si adivinas la letra, la hace aparecer con una animación de luz rosa.
 - **`Keyboard.tsx`**: El teclado virtual. Recibe qué letras ya fueron tocadas para pintarlas de gris (inactivas) y manda un aviso a `useHangman` cuando haces clic en una tecla nueva.
 - **`HangmanDrawing.tsx`**: Un dibujo en formato `SVG`. Recibe cuántos "errores" tienes y en base a ese número dibuja la cabeza, el cuerpo, los brazos y las piernas del monigote.
@@ -44,6 +49,28 @@ Estos archivos solo se encargan de **"cómo se ve"** el juego. No procesan regla
 
 ## 💻 ¿Cómo correr el proyecto localmente?
 
+### 1. Configuración de la Base de Datos (PostgreSQL)
+Este juego utiliza PostgreSQL como motor de base de datos. Para que la aplicación pueda iniciar, debes crear una base de datos local con las siguientes credenciales:
+- **Usuario:** `postgres`
+- **Contraseña:** `123456`
+- **Base de Datos:** `words`
+- **Puerto:** `5432`
+
+Una vez creada, ejecuta este script SQL para generar la tabla e insertar palabras iniciales:
+```sql
+CREATE TABLE words (
+    id SERIAL PRIMARY KEY,
+    word VARCHAR(50) NOT NULL,
+    hint TEXT NOT NULL
+);
+
+INSERT INTO words (word, hint) VALUES 
+('DESARROLLO', 'Proceso de crear o mejorar un producto de software.'),
+('HARDWARE', 'Parte física y tangible de una computadora.'),
+('ALGORITMO', 'Secuencia de pasos lógicos para resolver un problema.');
+```
+
+### 2. Iniciar el Servidor Web
 Abre la terminal en la raíz de tu proyecto e instala las dependencias si no lo has hecho:
 ```bash
 npm install
