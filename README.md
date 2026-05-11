@@ -25,10 +25,11 @@ La aplicación está dividida en diferentes carpetas bajo el directorio `app/` p
   - Calcula matemáticamente si el usuario ganó (todas las letras descubiertas) o si perdió (llegó a los 6 intentos).
   - Escucha tu teclado físico para agregar letras.
 
-- **`app/lib/words.ts`**: Es nuestra "base de datos". Contiene un arreglo de objetos que guardan las palabras tecnológicas a adivinar y su respectiva pista desencriptada.
+- **`app/lib/words.ts`**: Es nuestra conexión a la **base de datos PostgreSQL**. Ejecuta consultas SQL seguras para extraer una palabra aleatoria y su pista directamente desde el servidor.
 
 ### 2. Páginas / Rutas (Pages)
-- **`app/page.tsx`**: Es el archivo principal (el punto de entrada). Aquí se arma el rompecabezas uniendo la lógica (`useHangman`) con todos los componentes visuales. También maneja el estado que muestra u oculta el botón de pistas.
+- **`app/page.tsx`**: Es el menú principal del sistema. Permite al usuario seleccionar el modo de red (Modo Solo, Crear Sala o Unirse a Sala).
+- **`app/local/page.tsx`**: Aquí se arma el rompecabezas uniendo la lógica (`useHangman`) con los componentes visuales para el modo de un jugador.
 - **`app/REGLAS/page.tsx`**: Es una página dedicada exclusivamente a mostrar las instrucciones del juego, con un diseño temático de *terminal de hacker*.
 
 ### 3. Componentes Visuales (`app/components/`)

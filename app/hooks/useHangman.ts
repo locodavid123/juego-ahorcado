@@ -1,12 +1,30 @@
 import { useState, useEffect, useCallback } from "react";
-import { getRandomWord, WordEntry } from "../lib/words";
+import type { WordEntry } from "../lib/words";
 
 export function useHangman(maxAttempts: number = 6) {
   const [wordData, setWordData] = useState<WordEntry>({ word: "", hint: "" });
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchNewWord = async () => {
+    setIsLoading(true);
+    try {
+      // Añadimos cache: 'no-store' y una marca de tiempo para evadir la caché del navegador y Next.js
+      const response = await fetch(`/api/game?t=${Date.now()}`, {
+        cache: 'no-store'
+      });
+      const data = await response.json();
+      setWordData(data);
+    } catch (error) {
+      console.error("Error al obtener la palabra:", error);
+      setWordData({ word: "SISTEMA", hint: "Fallo en la conexión de red." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setWordData(getRandomWord());
+    fetchNewWord();
   }, []);
 
   const wordToGuess = wordData.word;
@@ -50,7 +68,7 @@ export function useHangman(maxAttempts: number = 6) {
 
   const restart = () => {
     setGuessedLetters([]);
-    setWordData(getRandomWord());
+    fetchNewWord();
   };
 
   return {
@@ -61,6 +79,7 @@ export function useHangman(maxAttempts: number = 6) {
     correctLetters,
     isLoser,
     isWinner,
+    isLoading,
     addGuessedLetter,
     restart,
   };

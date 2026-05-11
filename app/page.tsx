@@ -1,12 +1,12 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Background from "./components/Background";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen items-center bg-[#0d0221] font-mono relative overflow-hidden text-cyan-50">
-      <div className="absolute bottom-0 left-0 right-0 h-[60vh] bg-[linear-gradient(rgba(236,72,153,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.3)_1px,transparent_1px)] bg-[size:40px_40px] [transform:perspective(500px)_rotateX(60deg)] origin-bottom pointer-events-none opacity-40"></div>
-      <div className="absolute top-0 left-0 right-0 bottom-[50vh] bg-gradient-to-b from-[#0d0221] via-[#1a0b2e] to-[#2d0a42] pointer-events-none -z-10"></div>
+      <Background />
       
       <div className="relative z-10 w-full flex flex-col items-center flex-1">
         <Header />
