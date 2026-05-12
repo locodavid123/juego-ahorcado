@@ -14,3 +14,29 @@ export async function GET() {
     },
   });
 }
+
+export async function POST() {
+  try {
+    const wordData = await getRandomWord();
+    
+    // Generar un ID de sala aleatorio
+    const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+    
+    // Inicializar el objeto global si no existe
+    if (!global.gamesData) {
+      global.gamesData = {};
+    }
+    
+    // Guardar el estado inicial del juego
+    global.gamesData[roomId] = {
+      wordToGuess: wordData.word,
+      hint: wordData.hint,
+      guessedLetters: [],
+      status: 'playing'
+    };
+    
+    return NextResponse.json({ success: true, roomId });
+  } catch (error) {
+    return NextResponse.json({ error: 'Error al crear la sala' }, { status: 500 });
+  }
+}
