@@ -7,13 +7,17 @@ export type WordEntry = {
 };
 
 // Configuración del Pool de conexiones a PostgreSQL
-const pool = new Pool({
-  user: 'postgres', // Usuario por defecto de postgres
-  host: 'localhost',
-  database: 'words', // Nombre de la base de datos
-  password: '123456', // Tu contraseña
-  port: 5432, // Puerto por defecto
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL }
+    : {
+        user: 'postgres', // Usuario por defecto de postgres
+        host: 'localhost',
+        database: 'words', // Nombre de la base de datos
+        password: '123456', // Tu contraseña
+        port: 5432, // Puerto por defecto
+      }
+);
 
 export async function getRandomWord(): Promise<WordEntry> {
   try {
