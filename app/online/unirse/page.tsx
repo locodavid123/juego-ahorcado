@@ -8,11 +8,26 @@ import Footer from "../../components/Footer";
 export default function UnirseSala() {
   const router = useRouter();
   const [code, setCode] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (code.length === 4) {
-      router.push(`/online/sala/${code}`);
+    if (code.length === 6) {
+      setIsLoading(true);
+      setErrorMsg("");
+      try {
+        const res = await fetch(`/api/game/${code}`);
+        if (!res.ok) {
+          setErrorMsg("SALA NO ENCONTRADA");
+          setIsLoading(false);
+          return;
+        }
+        router.push(`/online/sala/${code}`);
+      } catch (err) {
+        setErrorMsg("ERROR DE CONEXIÓN");
+        setIsLoading(false);
+      }
     }
   };
 
@@ -31,24 +46,32 @@ export default function UnirseSala() {
 
             <div className="flex flex-col gap-2 items-center">
               <label className="text-sm font-bold text-cyan-300 uppercase tracking-widest text-center">
-                Código de Acceso (4 Dígitos):
+                Código de Acceso (6 Caracteres):
               </label>
               <input 
                 type="text" 
                 value={code}
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                className="bg-black/80 border-2 border-cyan-500 p-4 text-4xl text-center text-white outline-none focus:border-purple-500 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] tracking-[0.5em] font-bold w-48"
-                placeholder="0000"
+                onChange={(e) => {
+                  setCode(e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 6));
+                  setErrorMsg("");
+                }}
+                className={`bg-black/80 border-2 ${errorMsg ? 'border-red-500' : 'border-cyan-500'} p-4 text-4xl text-center text-white outline-none focus:border-purple-500 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] tracking-[0.5em] font-bold w-48`}
+                placeholder="XXXXXX"
                 required
               />
+              {errorMsg && (
+                <span className="text-red-500 text-sm font-bold animate-pulse mt-2 tracking-widest text-center">
+                  [ {errorMsg} ]
+                </span>
+              )}
             </div>
 
             <button 
               type="submit" 
-              disabled={code.length !== 4}
+              disabled={code.length !== 6 || isLoading}
               className="mt-4 px-6 py-4 bg-purple-600 text-white font-bold uppercase tracking-[0.2em] hover:bg-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.8)] disabled:opacity-50 transition-all"
             >
-              Infiltrarse
+              {isLoading ? "VERIFICANDO..." : "Infiltrarse"}
             </button>
           </form>
         </main>
