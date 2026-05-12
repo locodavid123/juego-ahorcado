@@ -47,37 +47,21 @@ Estos archivos solo se encargan de **"cómo se ve"** el juego. No procesan regla
 
 ---
 
-## 💻 ¿Cómo correr el proyecto localmente?
+## 💻 ¿Cómo correr el proyecto localmente con Docker?
 
-### 1. Configuración de la Base de Datos (PostgreSQL)
-Este juego utiliza PostgreSQL como motor de base de datos. Para que la aplicación pueda iniciar, debes crear una base de datos local con las siguientes credenciales:
-- **Usuario:** `postgres`
-- **Contraseña:** `123456`
-- **Base de Datos:** `words`
-- **Puerto:** `5432`
+Este proyecto utiliza **Docker y Docker Compose** para orquestar todos los servicios necesarios: la base de datos PostgreSQL, dos instancias de la aplicación Next.js y un balanceador de carga Nginx. Todo está configurado para ejecutarse con un solo comando.
 
-Una vez creada, ejecuta este script SQL para generar la tabla e insertar palabras iniciales:
-```sql
-CREATE TABLE words (
-    id SERIAL PRIMARY KEY,
-    word VARCHAR(50) NOT NULL,
-    hint TEXT NOT NULL
-);
+### Requisitos previos:
+Asegúrate de tener instalado **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** en tu computadora y que esté en ejecución.
 
-INSERT INTO words (word, hint) VALUES 
-('DESARROLLO', 'Proceso de crear o mejorar un producto de software.'),
-('HARDWARE', 'Parte física y tangible de una computadora.'),
-('ALGORITMO', 'Secuencia de pasos lógicos para resolver un problema.');
-```
+### Pasos para iniciar:
 
-### 2. Iniciar el Servidor Web
-Abre la terminal en la raíz de tu proyecto e instala las dependencias si no lo has hecho:
+1. Abre una terminal en la carpeta principal del proyecto (donde se encuentra el archivo `docker-compose.yml`).
+2. Ejecuta el siguiente comando para construir y levantar todos los contenedores:
 ```bash
-npm install
+docker-compose up --build
 ```
+*(Si prefieres que la terminal quede libre, puedes agregar `-d` al final del comando).*
 
-Luego, inicia el servidor de desarrollo:
-```bash
-npm run dev
-```
-Finalmente, abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+3. ¡Listo! La base de datos se inicializará automáticamente con las palabras, y Nginx distribuirá el tráfico entre los contenedores de la aplicación.
+4. Finalmente, abre **[http://localhost](http://localhost)** en tu navegador web.
